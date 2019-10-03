@@ -37,6 +37,8 @@ document.getElementById("gamePanel").appendChild(canvas);
 let bgReady, heroReady, monsterReady;
 let bgImage, heroImage, monsterImage;
 
+let slashone, slashtwo, slashthree, slashfour;
+
 let startTime = Date.now();
 const SECONDS_PER_ROUND = 10;
 let elapsedTime = 0;
@@ -61,6 +63,42 @@ function loadImages() {
     monsterReady = true;
   };
   monsterImage.src = "images/monster.png";
+
+  slashone = new Image();
+  slashone.onload = function() {
+    // show the monster image
+    monsterReady = true;
+  };
+  slashone.src = "images/slash1.png";
+  
+  slashtwo = new Image();
+  slashtwo.onload = function() {
+    // show the monster image
+    monsterReady = true;
+  };
+  slashtwo.src = "images/slash2.png";
+  
+  slashthree = new Image();
+  slashthree.onload = function() {
+    // show the monster image
+    monsterReady = true;
+  };
+  slashthree.src = "images/slash3.png";
+  
+  slashfour = new Image();
+  slashfour.onload = function() {
+    // show the monster image
+    monsterReady = true;
+  };
+  slashfour.src = "images/slash4.png";
+  
+  slashfive = new Image();
+  slashfive.onload = function() {
+    // show the monster image
+    monsterReady = true;
+  };
+  slashfive.src = "images/slash5.png";
+  
 }
 
 /**
@@ -253,19 +291,19 @@ function attack_model() {
 }
 
 function slash_one() {
-  heroImage.src = "images/slash1.png";
+  heroImage = slashone;
 }
 function slash_two() {
-  heroImage.src = "images/slash2.png";
+  heroImage = slashtwo;
 }
 function slash_three() {
-  heroImage.src = "images/slash3.png";
+  heroImage = slashthree;
 }
 function slash_four() {
-  heroImage.src = "images/slash4.png";
+  heroImage = slashfour;
 }
 function slash_five() {
-  heroImage.src = "images/slash5.png";
+  heroImage = slashfive;
 }
 
 function resetModel() {
@@ -350,7 +388,7 @@ function restartGame(moment) {
   //   20,
   //   100
   // );
-  console.log(applicationState);
+  // console.log(applicationState);
   update();
 }
 
