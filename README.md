@@ -1,6 +1,6 @@
 # CoderSchool FTW - * Nam, the Monster Hunter *
 
-Created with love by: Charles Lee
+Created with love by: Nguyen Anh Khoa
   
 This is a simple Canvas-based game that requires a solid understanding of the principles of JavaScript programming to customize. 
 
@@ -8,7 +8,6 @@ This is a simple Canvas-based game that requires a solid understanding of the pr
 
 Here's a walkthrough of implemented user stories.
 
-![](http://g.recordit.co/cURdPMSHT2.gif)
 
 ## Code Reviews
 
@@ -20,10 +19,10 @@ This code was reviewed by @username and @otherusername.
 
 ## Required User Stories
 - [ ] I have at least three code reviews from others.
-- [x] The user can move their character with the arrow keys. 
-- [x] The user can see a monster.
+- [ ] The user can move their character with the arrow keys. 
+- [ ] The user can see a monster.
 - [ ] The monster is placed at a random location within the game boundaries.
-- [x] The user can catch a monster by moving their character to the same location as a monster.
+- [ ] The user can catch a monster by moving their character to the same location as a monster.
 - [ ] When the user catches a monster, a new monster is placed randomly upon the screen.
 - [ ] The user can see the numbers of monsters she has caught. Every time she catches a monster, the number should increment by one. 
 - [ ] The game ends when the user has caught 20 monsters. The total time elapsed is displayed upon game completion, in seconds.
