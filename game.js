@@ -14,21 +14,18 @@ let ctx;
 let time = 0;
 let score = 0;
 let isGameOver = false;
+let isAdded = false;
 
-let applicationState = {
-  isGameOver: false,
-  hightScore: {
-    user: "",
-    score: ""
-  },
-  playSession: [
-    { user: "test", score: "100" },
-    { user: "test", score: "100" },
-    { user: "test", score: "100" },
-    { user: "test", score: "100" },
-    { user: "test", score: "100" }
-  ]
-};
+if (localStorage.getItem("data") === null) {
+  let applicationState = {
+    isGameOver: false,
+    hightScore: {
+      user: "",
+      score: 0
+    },
+    playSession: []
+  };
+}
 
 canvas = document.createElement("canvas");
 ctx = canvas.getContext("2d");
@@ -40,7 +37,7 @@ let bgReady, heroReady, monsterReady;
 let bgImage, heroImage, monsterImage;
 
 let startTime = Date.now();
-const SECONDS_PER_ROUND = 30;
+const SECONDS_PER_ROUND = 10;
 let elapsedTime = 0;
 
 function loadImages() {
@@ -63,6 +60,7 @@ function loadImages() {
     monsterReady = true;
   };
   monsterImage.src = "images/monster.png";
+  
 }
 
 /**
@@ -115,8 +113,6 @@ function setupKeyboardListeners() {
  *  If you change the value of 5, the player will move at a different rate.
  */
 let update = function() {
-  // console.log(isGameOver)
-  console.log("Elapsed :", elapsedTime);
   // Update the time.
   if (isGameOver == false) {
     elapsedTime = Math.floor((Date.now() - startTime) / 1000);
@@ -126,7 +122,10 @@ let update = function() {
     isGameOver = true;
   }
 
-  if (isGameOver) return;
+  if (isGameOver) {
+    if (!isAdded) saveScore();
+    return;
+  }
   if (38 in keysDown) {
     // Player is holding up key
     heroY -= 5;
@@ -270,6 +269,17 @@ function resetModel() {
   heroImage.src = "images/adventurer-right.png";
 }
 
+function saveScore() {
+  let applicationState = JSON.parse(localStorage.getItem("data"));
+  let obj = new Object();
+  obj.user = "Khoa";
+  obj.score = score;
+  applicationState.playSession.push(obj);
+  localStorage.setItem("data", JSON.stringify(applicationState));
+  console.log("run");
+  isAdded = true;
+}
+
 /**
  * The main game loop. Most every game will have two distinct parts:
  * update (updates the state of the game, in this case our hero and monster)
@@ -283,8 +293,10 @@ var main = function() {
   requestAnimationFrame(main);
 };
 
-function restartGame() {
+function restartGame(moment) {
+  score = 0;
   isGameOver = false;
+  isAdded = false;
   startTime = Date.now();
   elapsedTime = 0;
   monsterX = Math.floor(Math.random() * (canvas.width - 10)) + 10;
@@ -294,7 +306,7 @@ function restartGame() {
   //   20,
   //   100
   // );
-  console.log("run");
+  console.log(applicationState);
   update();
 }
 
