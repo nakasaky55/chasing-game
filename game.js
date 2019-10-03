@@ -25,6 +25,7 @@ if (localStorage.getItem("data") === null) {
     },
     playSession: []
   };
+  localStorage.setItem("data", JSON.stringify(applicationState));
 }
 
 canvas = document.createElement("canvas");
@@ -312,12 +313,12 @@ function die_stand_six() {
 }
 
 function saveScore() {
-  let applicationState = JSON.parse(localStorage.getItem("data"));
+  let manageData = JSON.parse(localStorage.getItem("data"));
   let obj = new Object();
   obj.user = "Khoa";
   obj.score = score;
-  applicationState.playSession.push(obj);
-  localStorage.setItem("data", JSON.stringify(applicationState));
+  manageData.playSession.push(obj);
+  localStorage.setItem("data", JSON.stringify(manageData));
   console.log("run");
   isAdded = true;
 }
