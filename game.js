@@ -60,7 +60,6 @@ function loadImages() {
     monsterReady = true;
   };
   monsterImage.src = "images/monster.png";
-  
 }
 
 /**
@@ -123,7 +122,10 @@ let update = function() {
   }
 
   if (isGameOver) {
-    if (!isAdded) saveScore();
+    if (!isAdded) {
+      die_model();
+      saveScore();
+    }
     return;
   }
   if (38 in keysDown) {
@@ -269,6 +271,46 @@ function resetModel() {
   heroImage.src = "images/adventurer-right.png";
 }
 
+// die animation
+function die_model() {
+  setTimeout(die_stand_one, 100);
+  setTimeout(die_stand_two, 200);
+  setTimeout(die_stand_three, 300);
+  setTimeout(die_stand_four, 400);
+  setTimeout(die_stand_five, 500);
+  setTimeout(die_stand_six, 600);
+
+  return true;
+}
+
+function stand_up_model() {
+  setTimeout(die_stand_five, 100);
+  setTimeout(die_stand_four, 200);
+  setTimeout(die_stand_three, 300);
+  setTimeout(die_stand_two, 400);
+  setTimeout(die_stand_one, 500);
+  setTimeout(resetModel, 600);
+}
+
+function die_stand_one() {
+  heroImage.src = "images/adventurer-die-01.png";
+}
+function die_stand_two() {
+  heroImage.src = "images/adventurer-die-02.png";
+}
+function die_stand_three() {
+  heroImage.src = "images/adventurer-die-03.png";
+}
+function die_stand_four() {
+  heroImage.src = "images/adventurer-die-04.png";
+}
+function die_stand_five() {
+  heroImage.src = "images/adventurer-die-05.png";
+}
+function die_stand_six() {
+  heroImage.src = "images/adventurer-die-06.png";
+}
+
 function saveScore() {
   let applicationState = JSON.parse(localStorage.getItem("data"));
   let obj = new Object();
@@ -299,6 +341,7 @@ function restartGame(moment) {
   isAdded = false;
   startTime = Date.now();
   elapsedTime = 0;
+  stand_up_model();
   monsterX = Math.floor(Math.random() * (canvas.width - 10)) + 10;
   monsterY = Math.floor(Math.random() * (canvas.height - 5));
   // ctx.fillText(
