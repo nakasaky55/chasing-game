@@ -26,6 +26,10 @@ if (localStorage.getItem("data") === null) {
     playSession: []
   };
   localStorage.setItem("data", JSON.stringify(applicationState));
+  document.getElementById('highest-score').innerHTML = 0;
+}else {
+  let displayHighestScore = JSON.parse(localStorage.getItem("data")).hightScore.score;
+  document.getElementById('highest-score').innerHTML = displayHighestScore;
 }
 
 canvas = document.createElement("canvas");
@@ -99,6 +103,8 @@ function loadImages() {
   };
   slashfive.src = "images/slash5.png";
   
+
+  //die animation
 }
 
 /**
@@ -163,7 +169,7 @@ let update = function() {
   if (isGameOver) {
     if (!isAdded) {
       die_model();
-      saveScore();
+      saveAndUpdateHighestScore();
     }
     return;
   }
@@ -350,8 +356,16 @@ function die_stand_six() {
   heroImage.src = "images/adventurer-die-06.png";
 }
 
-function saveScore() {
+function saveAndUpdateHighestScore() {
   let manageData = JSON.parse(localStorage.getItem("data"));
+  let highestScore = manageData.hightScore.score;
+  console.log(highestScore);
+  if(score > highestScore) {
+    manageData.hightScore.score = score;
+    document.getElementById('highest-score').innerHTML = score;
+  }else {
+    document.getElementById('highest-score').innerHTML = highestScore;
+  }
   let obj = new Object();
   obj.user = "Khoa";
   obj.score = score;
