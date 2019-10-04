@@ -9,17 +9,44 @@
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <div class="container-fluid">
       <div class="container">
         <div class="row">
-          <div class="col-lg-6 col-xs-12" id="gamePanel"></div>
-          <div class="col-lg-6 col-xs-12">
+          <div class="col-lg-6 col-md-12" id="gamePanel"></div>
+          <div class="col-lg-6 col-md-12" id="gameResult">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1"
+                  >What can I call you ?</span
+                >
+              </div>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Username"
+                aria-label="Username"
+                aria-describedby="basic-addon1"
+                id="user-name"
+              />
+            </div>
             <p>Your current Score:<span id="your-score"></span></p>
-            <p>Your highest Score:<span id="highest-score"></span></p>
-            <button onclick="restartGame()">Reset</button>
+            <h1>Highest Score:</h1>
+
+            <ul>
+              <li>
+                <span id="highest-score"></span> points ---
+                <span id="highest-username"></span>
+              </li>
+            </ul>
+
+            <ul></ul>
+            <button class="btn" onclick="restartGame()">Reset</button>
+            <button class="btn" onclick="startGame()" id="start-game">
+              Start
+            </button>
           </div>
         </div>
       </div>

@@ -14,17 +14,33 @@ let ctx;
 let time = 0;
 let score = 0;
 let isGameOver = false;
+let pressStart = false;
 let isAdded = false;
+
+canvas = document.createElement("canvas");
+ctx = canvas.getContext("2d");
+
+let heroX = canvas.width / 2;
+let heroY = canvas.height / 2;
+
+let monsterX = Math.floor(Math.random() * (canvas.width - 10)) + 10;
+let monsterY = Math.floor(Math.random() * (canvas.height - 5));
 
 let displayHighestScore = getAppState().hightScore.score;
 document.getElementById("highest-score").innerHTML = displayHighestScore;
+let displayUsername = getAppState().hightScore.user;
+document.getElementById("highest-username").innerHTML = displayUsername;
+
+document.getElementById("gamePanel").appendChild(canvas);
+canvas.width = 512;
+canvas.height = 480;
 
 function getAppState() {
   return (
     JSON.parse(localStorage.getItem("data")) || {
       isGameOver: false,
       hightScore: {
-        user: "",
+        user: "Anonymous",
         score: 0
       },
       playSession: []
@@ -36,19 +52,13 @@ function saveAppState(appstate) {
   return localStorage.setItem("data", JSON.stringify(appstate));
 }
 
-canvas = document.createElement("canvas");
-ctx = canvas.getContext("2d");
-canvas.width = 512;
-canvas.height = 480;
-document.getElementById("gamePanel").appendChild(canvas);
-
 let bgReady, heroReady, monsterReady;
 let bgImage, heroImage, monsterImage;
 
 let slashone, slashtwo, slashthree, slashfour;
 let dieone, dietwo, diethree, diefour, diefive, diesix;
 
-let startTime = Date.now();
+let startTime;
 const SECONDS_PER_ROUND = 10;
 let elapsedTime = 0;
 
@@ -115,7 +125,7 @@ function loadImages() {
     monsterReady = true;
   };
   dieone.src = "images/adventurer-die-01.png";
-    
+
   dietwo = new Image();
   dietwo.onload = function() {
     // show the monster image
@@ -150,8 +160,6 @@ function loadImages() {
     monsterReady = true;
   };
   diesix.src = "images/adventurer-die-06.png";
-
-
 }
 
 /**
@@ -163,12 +171,6 @@ function loadImages() {
  *
  * The same applies to the monster.
  */
-
-let heroX = canvas.width / 2;
-let heroY = canvas.height / 2;
-
-let monsterX = Math.floor(Math.random() * (canvas.width - 10)) + 10;
-let monsterY = Math.floor(Math.random() * (canvas.height - 5));
 
 /**
  * Keyboard Listeners
@@ -204,9 +206,13 @@ function setupKeyboardListeners() {
  *  If you change the value of 5, the player will move at a different rate.
  */
 let update = function() {
+  if (!pressStart) {
+    return;
+  }
   // Update the time.
   if (isGameOver == false) {
     elapsedTime = Math.floor((Date.now() - startTime) / 1000);
+    console.log(elapsedTime);
   }
 
   if (elapsedTime > SECONDS_PER_ROUND) {
@@ -321,14 +327,16 @@ var render = function() {
   if (monsterReady) {
     ctx.drawImage(monsterImage, monsterX, monsterY);
   }
-  if (SECONDS_PER_ROUND - elapsedTime > 0) {
-    ctx.fillText(
-      `Seconds Remaining: ${SECONDS_PER_ROUND - elapsedTime}`,
-      20,
-      100
-    );
-  } else {
-    ctx.fillText(`GAME OVER`, 200, 250);
+  if (pressStart) {
+    if (SECONDS_PER_ROUND - elapsedTime > 0) {
+      ctx.fillText(
+        `Seconds Remaining: ${SECONDS_PER_ROUND - elapsedTime}`,
+        20,
+        100
+      );
+    } else {
+      ctx.fillText(`GAME OVER`, 200, 250);
+    }
   }
 };
 
@@ -382,6 +390,8 @@ function stand_up_model() {
   setTimeout(die_stand_two, 400);
   setTimeout(die_stand_one, 500);
   setTimeout(resetModel, 600);
+
+  return true;
 }
 
 function die_stand_one() {
@@ -406,19 +416,31 @@ function die_stand_six() {
 function saveAndUpdateHighestScore() {
   let manageData = getAppState();
   let highestScore = manageData.hightScore.score;
-  console.log(highestScore);
+  let inputUsername = document.getElementById("user-name").value;
+
+  //update highest score
   if (score > highestScore) {
     manageData.hightScore.score = score;
+    if (inputUsername == "") {
+      manageData.hightScore.user = "Anonymous";
+    } else {
+      manageData.hightScore.user = inputUsername;
+    }
     document.getElementById("highest-score").innerHTML = score;
+    document.getElementById("highest-username").innerHTML =
+      manageData.hightScore.user;
   } else {
     document.getElementById("highest-score").innerHTML = highestScore;
   }
+
+  //add user history
   let obj = new Object();
-  obj.user = "Khoa";
+  if (inputUsername == "") {
+    obj.user = "Anonymous";
+  } else obj.user = inputUsername;
   obj.score = score;
   manageData.playSession.push(obj);
   saveAppState(manageData);
-  console.log("run");
   isAdded = true;
 }
 
@@ -453,6 +475,15 @@ function restartGame(moment) {
   update();
 }
 
+//start game at beginning
+function startGame() {
+  if (stand_up_model()) {
+    pressStart = true;
+    startTime = Date.now();
+    document.getElementById("start-game").style.display = "none";
+  }
+}
+
 // Cross-browser support for requestAnimationFrame.
 // Safely ignore this line. It's mostly here for people with old web browsers.
 var w = window;
@@ -469,5 +500,5 @@ function linkStart() {
   main();
   // console.log("run");
 }
-
+die_model();
 linkStart();
