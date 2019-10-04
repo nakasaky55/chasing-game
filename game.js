@@ -16,20 +16,24 @@ let score = 0;
 let isGameOver = false;
 let isAdded = false;
 
-if (localStorage.getItem("data") === null) {
-  let applicationState = {
-    isGameOver: false,
-    hightScore: {
-      user: "",
-      score: 0
-    },
-    playSession: []
-  };
-  localStorage.setItem("data", JSON.stringify(applicationState));
-  document.getElementById('highest-score').innerHTML = 0;
-}else {
-  let displayHighestScore = JSON.parse(localStorage.getItem("data")).hightScore.score;
-  document.getElementById('highest-score').innerHTML = displayHighestScore;
+let displayHighestScore = getAppState().hightScore.score;
+document.getElementById("highest-score").innerHTML = displayHighestScore;
+
+function getAppState() {
+  return (
+    JSON.parse(localStorage.getItem("data")) || {
+      isGameOver: false,
+      hightScore: {
+        user: "",
+        score: 0
+      },
+      playSession: []
+    }
+  );
+}
+
+function saveAppState(appstate) {
+  return localStorage.setItem("data", JSON.stringify(appstate));
 }
 
 canvas = document.createElement("canvas");
@@ -42,6 +46,7 @@ let bgReady, heroReady, monsterReady;
 let bgImage, heroImage, monsterImage;
 
 let slashone, slashtwo, slashthree, slashfour;
+let dieone, dietwo, diethree, diefour, diefive, diesix;
 
 let startTime = Date.now();
 const SECONDS_PER_ROUND = 10;
@@ -74,37 +79,79 @@ function loadImages() {
     monsterReady = true;
   };
   slashone.src = "images/slash1.png";
-  
+
   slashtwo = new Image();
   slashtwo.onload = function() {
     // show the monster image
     monsterReady = true;
   };
   slashtwo.src = "images/slash2.png";
-  
+
   slashthree = new Image();
   slashthree.onload = function() {
     // show the monster image
     monsterReady = true;
   };
   slashthree.src = "images/slash3.png";
-  
+
   slashfour = new Image();
   slashfour.onload = function() {
     // show the monster image
     monsterReady = true;
   };
   slashfour.src = "images/slash4.png";
-  
+
   slashfive = new Image();
   slashfive.onload = function() {
     // show the monster image
     monsterReady = true;
   };
   slashfive.src = "images/slash5.png";
-  
 
   //die animation
+  dieone = new Image();
+  dieone.onload = function() {
+    // show the monster image
+    monsterReady = true;
+  };
+  dieone.src = "images/adventurer-die-01.png";
+    
+  dietwo = new Image();
+  dietwo.onload = function() {
+    // show the monster image
+    monsterReady = true;
+  };
+  dietwo.src = "images/adventurer-die-02.png";
+
+  diethree = new Image();
+  diethree.onload = function() {
+    // show the monster image
+    monsterReady = true;
+  };
+  diethree.src = "images/adventurer-die-03.png";
+
+  diefour = new Image();
+  diefour.onload = function() {
+    // show the monster image
+    monsterReady = true;
+  };
+  diefour.src = "images/adventurer-die-04.png";
+
+  diefive = new Image();
+  diefive.onload = function() {
+    // show the monster image
+    monsterReady = true;
+  };
+  diefive.src = "images/adventurer-die-05.png";
+
+  diesix = new Image();
+  diesix.onload = function() {
+    // show the monster image
+    monsterReady = true;
+  };
+  diesix.src = "images/adventurer-die-06.png";
+
+
 }
 
 /**
@@ -338,39 +385,39 @@ function stand_up_model() {
 }
 
 function die_stand_one() {
-  heroImage.src = "images/adventurer-die-01.png";
+  heroImage = dieone;
 }
 function die_stand_two() {
-  heroImage.src = "images/adventurer-die-02.png";
+  heroImage = dietwo;
 }
 function die_stand_three() {
-  heroImage.src = "images/adventurer-die-03.png";
+  heroImage = diethree;
 }
 function die_stand_four() {
-  heroImage.src = "images/adventurer-die-04.png";
+  heroImage = diefour;
 }
 function die_stand_five() {
-  heroImage.src = "images/adventurer-die-05.png";
+  heroImage = diefive;
 }
 function die_stand_six() {
-  heroImage.src = "images/adventurer-die-06.png";
+  heroImage = diesix;
 }
 
 function saveAndUpdateHighestScore() {
-  let manageData = JSON.parse(localStorage.getItem("data"));
+  let manageData = getAppState();
   let highestScore = manageData.hightScore.score;
   console.log(highestScore);
-  if(score > highestScore) {
+  if (score > highestScore) {
     manageData.hightScore.score = score;
-    document.getElementById('highest-score').innerHTML = score;
-  }else {
-    document.getElementById('highest-score').innerHTML = highestScore;
+    document.getElementById("highest-score").innerHTML = score;
+  } else {
+    document.getElementById("highest-score").innerHTML = highestScore;
   }
   let obj = new Object();
   obj.user = "Khoa";
   obj.score = score;
   manageData.playSession.push(obj);
-  localStorage.setItem("data", JSON.stringify(manageData));
+  saveAppState(manageData);
   console.log("run");
   isAdded = true;
 }
