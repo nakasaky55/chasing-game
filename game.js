@@ -59,7 +59,7 @@ let slashone, slashtwo, slashthree, slashfour;
 let dieone, dietwo, diethree, diefour, diefive, diesix;
 
 let startTime;
-const SECONDS_PER_ROUND = 10;
+const SECONDS_PER_ROUND = 25;
 let elapsedTime = 0;
 
 function loadImages() {
@@ -206,6 +206,7 @@ function setupKeyboardListeners() {
  *  If you change the value of 5, the player will move at a different rate.
  */
 let update = function() {
+  attack_model_logo();
   if (!pressStart) {
     return;
   }
@@ -255,8 +256,8 @@ let update = function() {
   }
 
   //when hero moves the edge of right side
-  if (heroX >= canvas.width - 20) {
-    heroX = canvas.width - 20;
+  if (heroX >= canvas.width - 25) {
+    heroX = canvas.width - 25;
   }
 
   //when hero moves up to the top
@@ -265,8 +266,8 @@ let update = function() {
   }
 
   //when hero moves down to the bottom
-  if (heroY >= canvas.height) {
-    heroY = canvas.height - 5;
+  if (heroY >= canvas.height - 20) {
+    heroY = canvas.height - 20;
     // console.log(heroY);
   }
 
@@ -331,12 +332,15 @@ var render = function() {
     if (SECONDS_PER_ROUND - elapsedTime > 0) {
       ctx.fillText(
         `Seconds Remaining: ${SECONDS_PER_ROUND - elapsedTime}`,
-        20,
-        100
+        10,
+        20
       );
     } else {
       ctx.fillText(`GAME OVER`, 200, 250);
     }
+  } else {
+    ctx.font = "20px Verdana";
+    ctx.fillText(`PRESS START TO HUNT`, 150, 250);
   }
 };
 
@@ -413,6 +417,38 @@ function die_stand_six() {
   heroImage = diesix;
 }
 
+//logo
+function attack_model_logo() {
+  setTimeout(slash_one_logo, 100);
+  setTimeout(slash_two_logo, 200);
+  setTimeout(slash_three_logo, 300);
+  setTimeout(slash_four_logo, 400);
+  setTimeout(slash_five_logo, 500);
+  setTimeout(resetModel_logo, 600);
+
+  return true;
+}
+
+function slash_one_logo() {
+  document.getElementById("logo-moving").src = slashone.src;
+}
+function slash_two_logo() {
+  document.getElementById("logo-moving").src = slashtwo.src;
+}
+function slash_three_logo() {
+  document.getElementById("logo-moving").src = slashthree.src;
+}
+function slash_four_logo() {
+  document.getElementById("logo-moving").src = slashfour.src;
+}
+function slash_five_logo() {
+  document.getElementById("logo-moving").src = slashfive.src;
+}
+
+function resetModel_logo() {
+  document.getElementById("logo-moving").src = heroImage.src;
+}
+
 function saveAndUpdateHighestScore() {
   let manageData = getAppState();
   let highestScore = manageData.hightScore.score;
@@ -477,10 +513,11 @@ function restartGame(moment) {
 
 //start game at beginning
 function startGame() {
-  if (stand_up_model()) {
+  if (stand_up_model() && attack_model()) {
     pressStart = true;
     startTime = Date.now();
     document.getElementById("start-game").style.display = "none";
+    document.getElementById("reset-game").style.display = "inline";
   }
 }
 
@@ -501,4 +538,5 @@ function linkStart() {
   // console.log("run");
 }
 die_model();
+
 linkStart();

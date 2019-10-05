@@ -14,6 +14,10 @@
   <body>
     <div class="container-fluid">
       <div class="container">
+        <div class="row logo">
+          <img id="logo-moving"></img>
+          <p>GOBLIN SLAYER</p>
+        </div>
         <div class="row">
           <div class="col-lg-6 col-md-12" id="gamePanel"></div>
           <div class="col-lg-6 col-md-12" id="gameResult">
@@ -35,18 +39,23 @@
             <p>Your current Score:<span id="your-score"></span></p>
             <h1>Highest Score:</h1>
 
-            <ul>
+            <ul style="list-style: none">
               <li>
                 <span id="highest-score"></span> points ---
                 <span id="highest-username"></span>
               </li>
             </ul>
-
-            <ul></ul>
-            <button class="btn" onclick="restartGame()">Reset</button>
+            <button style="display: none" class="btn" onclick="restartGame()" id="reset-game">Reset</button>
             <button class="btn" onclick="startGame()" id="start-game">
               Start
             </button>
+          
+            <ul id="game-rule">
+              <li>Using up, right, down left arrow to move Hero.</li>
+              <li>When Hero slashes ugly goblin, you will score 1 point.</li>
+              <li>Please note that ugly goblin will be able to teleport to another location if it reaches edge of the screen.</li>
+              <li>You have 25s to kill as much as ulgy goblin as you can.</li>
+            </ul>
           </div>
         </div>
       </div>

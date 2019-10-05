@@ -1,18 +1,38 @@
 .btn {
-    border: 1px solid white;
-    color: white
+  border: 1px solid white;
+  color: white;
 }
 .container {
-    padding-top: 20px;
-    min-height: 800px;
-    background-color: #399E5A;
+  padding-top: 20px;
+  min-height: 650px;
+  background-color: #399e5a;
 }
 
-#gamePanel, #gameResult {
-    /* border: 1px solid black; */
-    padding-top : 20px;
+#gamePanel,
+#gameResult {
+  /* border: 1px solid black; */
+  padding-top: 20px;
 }
 
 #gameResult {
-    color: white;
+  color: white;
+  text-align: center;
+}
+
+.logo {
+  display: flex;
+  justify-content: center;
+}
+
+.logo p {
+  margin-bottom: 0px;
+  line-height: 37px;
+  color: white;
+  font-weight: bold;
+  font-family: cursive;
+  font-size: 26px;
+}
+
+#game-rule {
+    text-align: left;
 }
