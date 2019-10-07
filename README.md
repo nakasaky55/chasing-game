@@ -2,7 +2,7 @@
 
 Created with love by: Nguyen Anh Khoa
   
-You can play it (here)[https://competent-johnson-25b497.netlify.com/]
+You can play it [here](https://competent-johnson-25b497.netlify.com/)
 
 ## Video Walkthrough
 
