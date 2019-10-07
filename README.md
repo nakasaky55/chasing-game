@@ -2,7 +2,7 @@
 
 Created with love by: Nguyen Anh Khoa
   
-This is a simple Canvas-based game that requires a solid understanding of the principles of JavaScript programming to customize. 
+You can play it (here)[https://competent-johnson-25b497.netlify.com/]
 
 ## Video Walkthrough
 
